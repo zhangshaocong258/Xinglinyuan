@@ -1,4 +1,4 @@
-package core.util;
+package spider.util;
 
 import redis.clients.jedis.Jedis;
 

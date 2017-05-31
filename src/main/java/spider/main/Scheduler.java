@@ -1,8 +1,8 @@
-package core.spider;
+package spider.main;
 
-import core.util.Config;
-import core.util.LinkQueue;
-import core.util.RedisSet;
+import spider.util.Config;
+import spider.util.LinkQueue;
+import spider.util.RedisSet;
 
 import java.util.Set;
 
@@ -47,12 +47,10 @@ public class Scheduler {
 
     //下载失败，重新添加回待爬取队列
     public synchronized void recallURL(String url) {
-        if (url != null && !url.trim().equals("") &&
-                !LinkQueue.getVisitedUrl().contains(url) &&
-                !LinkQueue.getUnVisitedUrl().contains(url)) {
+        if (url != null && !url.trim().equals("")) {
             LinkQueue.addUnvisititedUrl(url);
+            LinkQueue.removeVisitedUrl(url);
         }
-        LinkQueue.removeVisitedUrl(url);
     }
 
     public synchronized void insertNewURL(Set<String> newURL) {
@@ -65,7 +63,7 @@ public class Scheduler {
         }
 
         //添加完毕后，如果URL队列不为空，则唤起
-        if (!LinkQueue.unVisitedUrlsEmpty() && threads < Config.thread_num) {
+        if (threads < Config.thread_num) {
             notifyAll();
         }
     }

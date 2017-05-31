@@ -1,6 +1,6 @@
-package core.spider;
+package spider.main;
 
-import core.util.Config;
+import spider.util.Config;
 
 /**
  * Created by zsc on 2016/11/23.

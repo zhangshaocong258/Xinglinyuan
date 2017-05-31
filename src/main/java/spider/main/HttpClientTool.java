@@ -1,4 +1,4 @@
-package core.spider;
+package spider.main;
 
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;

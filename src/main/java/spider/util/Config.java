@@ -1,6 +1,7 @@
-package core.util;
+package spider.util;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -91,7 +92,7 @@ public class Config {
     static {
         Properties properties = new Properties();
         try {
-            properties.load(Config.class.getResourceAsStream("/config.properties"));
+            properties.load(new InputStreamReader(Config.class.getResourceAsStream("/config.properties"), "UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();
         }

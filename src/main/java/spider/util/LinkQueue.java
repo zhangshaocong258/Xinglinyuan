@@ -1,4 +1,4 @@
-package core.util;
+package spider.util;
 
 import java.util.HashSet;
 import java.util.LinkedList;

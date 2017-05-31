@@ -1,6 +1,6 @@
-package core.spider;
+package spider.main;
 
-import core.util.Config;
+import spider.util.Config;
 
 import java.io.IOException;
 import java.util.Set;

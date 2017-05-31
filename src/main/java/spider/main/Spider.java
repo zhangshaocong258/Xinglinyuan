@@ -1,8 +1,8 @@
-package core.spider;
+package spider.main;
 
-import core.util.Config;
-import core.util.LinkQueue;
-import core.util.RedisSet;
+import spider.util.Config;
+import spider.util.LinkQueue;
+import spider.util.RedisSet;
 
 import java.io.File;
 import java.util.ArrayList;

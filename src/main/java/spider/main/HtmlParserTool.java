@@ -1,13 +1,11 @@
-package core.spider;
+package spider.main;
 
-import core.util.Config;
+import spider.util.Config;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -48,13 +46,20 @@ public class HtmlParserTool {
         Matcher categoryMatcher = category.matcher(absHref);
         Matcher docMatcher = doc.matcher(absHref);
         Matcher urlMatcher = category.matcher(url);
-
+//
+//        if (categoryMatcher.matches()) {
+//            c = true;
+//        }else if (docMatcher.matches()) {
+//            if (urlMatcher.matches()) {
+//                d = true;
+//            }
+//        }
         if (categoryMatcher.matches()) {
             c = true;
-        }else if (docMatcher.matches()) {
-            if (urlMatcher.matches()) {
-                d = true;
-            }
+        }
+
+        if (docMatcher.matches()) {
+            d = true;
         }
 
         if (c || d) {

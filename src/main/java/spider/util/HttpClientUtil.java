@@ -1,4 +1,4 @@
-package core.util;
+package spider.util;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
