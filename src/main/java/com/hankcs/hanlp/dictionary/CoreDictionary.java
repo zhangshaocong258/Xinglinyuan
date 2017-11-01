@@ -63,7 +63,7 @@ public class CoreDictionary
     {
         logger.info("核心词典开始加载:" + path);
         if (loadDat(path)) return true;
-        TreeMap<String, Attribute> map = new TreeMap<String, Attribute>();
+        TreeMap<String, CoreDictionary.Attribute> map = new TreeMap<String, Attribute>();
         BufferedReader br = null;
         try
         {
@@ -75,7 +75,7 @@ public class CoreDictionary
             {
                 String param[] = line.split("\\s");
                 int natureCount = (param.length - 1) / 2;
-                Attribute attribute = new Attribute(natureCount);
+                CoreDictionary.Attribute attribute = new CoreDictionary.Attribute(natureCount);
                 for (int i = 0; i < natureCount; ++i)
                 {
                     attribute.nature[i] = Enum.valueOf(Nature.class, param[1 + 2 * i]);
@@ -92,9 +92,9 @@ public class CoreDictionary
             try
             {
                 DataOutputStream out = new DataOutputStream(IOUtil.newOutputStream(path + Predefine.BIN_EXT));
-                Collection<Attribute> attributeList = map.values();
+                Collection<CoreDictionary.Attribute> attributeList = map.values();
                 out.writeInt(attributeList.size());
-                for (Attribute attribute : attributeList)
+                for (CoreDictionary.Attribute attribute : attributeList)
                 {
                     out.writeInt(attribute.totalFrequency);
                     out.writeInt(attribute.nature.length);
@@ -140,14 +140,14 @@ public class CoreDictionary
             ByteArray byteArray = ByteArray.createByteArray(path + Predefine.BIN_EXT);
             if (byteArray == null) return false;
             int size = byteArray.nextInt();
-            Attribute[] attributes = new Attribute[size];
+            CoreDictionary.Attribute[] attributes = new CoreDictionary.Attribute[size];
             final Nature[] natureIndexArray = Nature.values();
             for (int i = 0; i < size; ++i)
             {
                 // 第一个是全部频次，第二个是词性个数
                 int currentTotalFrequency = byteArray.nextInt();
                 int length = byteArray.nextInt();
-                attributes[i] = new Attribute(length);
+                attributes[i] = new CoreDictionary.Attribute(length);
                 attributes[i].totalFrequency = currentTotalFrequency;
                 for (int j = 0; j < length; ++j)
                 {

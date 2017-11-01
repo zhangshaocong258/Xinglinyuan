@@ -175,9 +175,9 @@ public class MDAG implements ICacheAble
      * 从一个文件建立MDAG<br>
      * Creates an MDAG from a newline delimited file containing the data of interest.
      *
-     * @param dataFile a {@link File} representation of a file
+     * @param dataFile a {@link java.io.File} representation of a file
      *                 containing the Strings that the MDAG will contain
-     * @throws IOException if {@code datafile} cannot be opened, or a read operation on it cannot be carried out
+     * @throws java.io.IOException if {@code datafile} cannot be opened, or a read operation on it cannot be carried out
      */
     public MDAG(File dataFile) throws IOException
     {
@@ -224,7 +224,7 @@ public class MDAG implements ICacheAble
     /**
      * Creates an MDAG from a collection of Strings.
      *
-     * @param strCollection a {@link Collection} containing Strings that the MDAG will contain
+     * @param strCollection a {@link java.util.Collection} containing Strings that the MDAG will contain
      */
     public MDAG(Collection<String> strCollection)
     {
@@ -241,7 +241,7 @@ public class MDAG implements ICacheAble
     /**
      * Adds a Collection of Strings to the MDAG.
      *
-     * @param strCollection a {@link Collection} containing Strings to be added to the MDAG
+     * @param strCollection a {@link java.util.Collection} containing Strings to be added to the MDAG
      */
     public final void addStrings(Collection<String> strCollection)
     {

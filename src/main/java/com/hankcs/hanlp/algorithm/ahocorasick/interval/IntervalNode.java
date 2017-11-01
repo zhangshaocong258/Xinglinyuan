@@ -199,7 +199,7 @@ public class IntervalNode
 
     /**
      * 是对IntervalNode.findOverlaps(Intervalable)的一个包装，防止NPE
-     * @see IntervalNode#findOverlaps(Intervalable)
+     * @see com.hankcs.hanlp.algorithm.ahocorasick.interval.IntervalNode#findOverlaps(Intervalable)
      * @param node
      * @param interval
      * @return

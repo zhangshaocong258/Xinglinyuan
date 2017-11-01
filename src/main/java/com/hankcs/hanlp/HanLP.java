@@ -189,7 +189,7 @@ public class HanLP
                 ClassLoader loader = Thread.currentThread().getContextClassLoader();
                 if (loader == null)
                 {  // IKVM (v.0.44.0.5) doesn't set context classloader
-                    loader = Config.class.getClassLoader();
+                    loader = HanLP.Config.class.getClassLoader();
                 }
                 p.load(new InputStreamReader(Predefine.HANLP_PROPERTIES_PATH == null ?
                         loader.getResourceAsStream("hanlp.properties") :
@@ -350,7 +350,7 @@ public class HanLP
     }
 
     /**
-     * 简转繁,是{@link HanLP#convertToTraditionalChinese(String)}的简称
+     * 简转繁,是{@link com.hankcs.hanlp.HanLP#convertToTraditionalChinese(java.lang.String)}的简称
      * @param s 简体中文
      * @return 繁体中文(大陆标准)
      */
@@ -594,6 +594,7 @@ public class HanLP
 
     /**
      * 自动摘要
+     * 分割目标文档时的默认句子分割符为，,。:：“”？?！!；;
      * @param document 目标文档
      * @param size 需要的关键句的个数
      * @return 关键句列表
@@ -605,6 +606,7 @@ public class HanLP
 
     /**
      * 自动摘要
+     * 分割目标文档时的默认句子分割符为，,。:：“”？?！!；;
      * @param document 目标文档
      * @param max_length 需要摘要的长度
      * @return 摘要文本
@@ -615,4 +617,31 @@ public class HanLP
         // The actual length of the summary generated may be short than the required length, but never longer;
         return TextRankSentence.getSummary(document, max_length);
     }
+
+    /**
+     * 自动摘要
+     * @param document 目标文档
+     * @param size 需要的关键句的个数
+     * @param sentence_separator 分割目标文档时的句子分割符，正则格式， 如：[。？?！!；;]
+     * @return 关键句列表
+     */
+    public static List<String> extractSummary(String document, int size, String sentence_separator)
+    {
+        return TextRankSentence.getTopSentenceList(document, size, sentence_separator);
+    }
+
+    /**
+     * 自动摘要
+     * @param document 目标文档
+     * @param max_length 需要摘要的长度
+     * @param sentence_separator 分割目标文档时的句子分割符，正则格式， 如：[。？?！!；;]
+     * @return 摘要文本
+     */
+    public static String getSummary(String document, int max_length, String sentence_separator)
+    {
+        // Parameter size in this method refers to the string length of the summary required;
+        // The actual length of the summary generated may be short than the required length, but never longer;
+        return TextRankSentence.getSummary(document, max_length, sentence_separator);
+    }
+    
 }

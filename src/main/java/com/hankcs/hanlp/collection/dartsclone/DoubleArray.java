@@ -55,7 +55,7 @@ public class DoubleArray
      * Read from a stream. The stream must implement the available() method.
      *
      * @param stream
-     * @throws IOException
+     * @throws java.io.IOException
      */
     public void open(InputStream stream) throws IOException
     {
@@ -86,7 +86,7 @@ public class DoubleArray
      * Saves the trie data into a stream.
      *
      * @param stream
-     * @throws IOException
+     * @throws java.io.IOException
      */
     public void save(OutputStream stream) throws IOException
     {

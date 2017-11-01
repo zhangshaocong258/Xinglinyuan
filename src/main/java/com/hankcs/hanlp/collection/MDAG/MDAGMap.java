@@ -175,7 +175,7 @@ public class MDAGMap<V> extends AbstractMap<String, V>
 
         public LinkedList<Entry<String, Integer>> commonPrefixSearchWithValueIndex(char[] key, int begin)
         {
-            LinkedList<Entry<String, Integer>> result = new LinkedList<Entry<String, Integer>>();
+            LinkedList<Map.Entry<String, Integer>> result = new LinkedList<Map.Entry<String, Integer>>();
             if (sourceNode != null)
             {
                 int charCount = key.length;
