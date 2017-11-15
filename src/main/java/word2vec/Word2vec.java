@@ -1,5 +1,9 @@
 package word2vec;
 
+import tree.domain.Forest;
+import tree.library.Library;
+import util.MyUtil;
+
 import java.io.*;
 import java.util.*;
 
@@ -7,34 +11,23 @@ import java.util.*;
  * Created by zsc on 2017/10/30.
  */
 public class Word2vec {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         Word2vec word2vec = new Word2vec();
         word2vec.loadGoogleModel("E:\\word2vec\\Google_word2vec_zhwiki1710_300d.bin");
-        System.out.println(word2vec.distance("足球"));
-        System.out.println(word2vec.distance("股票"));
-        System.out.println(word2vec.distance("电影"));
-        System.out.println(word2vec.distance("共产党"));
-        System.out.println(word2vec.distance("音乐"));
-        System.out.println(word2vec.distance("文革"));
-        System.out.println(word2vec.distance("计算机"));
-        System.out.println(word2vec.distance("男人"));
-        System.out.println(word2vec.distance("电脑"));
-        System.out.println(word2vec.distance("旅游"));
-        System.out.println(word2vec.distance("早餐"));
-        System.out.println(word2vec.distance("钓鱼岛"));
-        System.out.println(word2vec.distance("军事"));
-        System.out.println(word2vec.distance("英国"));
-        System.out.println(word2vec.distance("失误"));
-        System.out.println(word2vec.analogy("中国", "北京","法国"));
-        System.out.println(word2vec.analogy("中国", "人民币", "美国"));
-        System.out.println(word2vec.analogy("中国", "人民币", "法国"));
-        System.out.println(word2vec.analogy("中国", "人民币", "俄罗斯"));
-        System.out.println(word2vec.analogy("中国", "人民币", "英国"));
-        System.out.println(word2vec.analogy("中国", "人民币", "日本"));
-        System.out.println(word2vec.analogy("中国", "人民币", "韩国"));
-        System.out.println(word2vec.analogy("中国", "人民币", "澳大利亚"));
-        System.out.println(word2vec.analogy("中国", "人民币", "德国"));
+        String path1 = "src\\main\\resources\\主题词.txt";
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path1)));
+        String string = br.readLine();
+        while (string != null) {
+            Forest forest = Library.makeForest(new BufferedReader(new InputStreamReader(
+                    new FileInputStream(new File("src\\main\\resources\\解释词典带标签.txt")))));
 
+            String segSheZhi = MyUtil.getSegResult(forest,string.split("：")[1]);
+            String[] strings = segSheZhi.split(",");
+            for (String str : strings) {
+                System.out.println(word2vec.distance(str.trim()).toString().replace(", ",""));
+            }
+            string = br.readLine();
+        }
 
     }
 
@@ -186,12 +179,18 @@ public class Word2vec {
     public Set<WordEntry> distance(String queryWord) {
 
         float[] center = wordMap.get(queryWord);
+        //若为空，不返回空，返回查询词
+        TreeSet<WordEntry> result = new TreeSet<WordEntry>();
         if (center == null) {
-            return Collections.emptySet();
+            result.add(new WordEntry(queryWord, 1));
+            return result;
         }
+        //若为空，返回空
+//        if (center == null) {
+//            return Collections.emptySet();
+//        }
 
         int resultSize = wordMap.size() < topNSize ? wordMap.size() : topNSize;
-        TreeSet<WordEntry> result = new TreeSet<WordEntry>();
 
         double min = Float.MIN_VALUE;
         for (Map.Entry<String, float[]> entry : wordMap.entrySet()) {
@@ -209,7 +208,7 @@ public class Word2vec {
                 min = result.last().score;
             }
         }
-        result.pollFirst();
+//        result.pollFirst();//不显示查询词
 
         return result;
     }
@@ -250,8 +249,6 @@ public class Word2vec {
     }
 
     private float[] sum(float[] center, float[] fs) {
-        // TODO Auto-generated method stub
-
         if (center == null && fs == null) {
             return null;
         }
@@ -310,7 +307,6 @@ public class Word2vec {
      * @throws IOException
      */
     private static String readString(DataInputStream dis) throws IOException {
-        // TODO Auto-generated method stub
         byte[] bytes = new byte[MAX_SIZE];
         byte b = dis.readByte();
         int i = -1;
