@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybatis.UserDao">
+
+    <resultMap id="UserMap" type="User">
+        <id property="id" column="id" />
+        <result property="userName" column="userName" />
+        <result property="userAge" column="userAge" />
+        <result property="userAddress" column="userAddress" />
+    </resultMap>
+
+    <select id="selectUserById" resultType="User" >
+        select * from user where id = #{id}
+    </select>
+
+    <select id="selectAllUsers" resultMap="UserMap" >
+        select * from user
+    </select>
+
+    <!--加上id，否则自动增加id-->
+    <insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+        insert into user(userName,userAge,userAddress)
+        values(#{userName},#{userAge},#{userAddress})
+    </insert>
+
+    <update id="updateUser" parameterType="User" >
+        update user set userName=#{userName},userAge=#{userAge},userAddress=#{userAddress} where id=#{id}
+    </update>
+
+    <delete id="deleteUser" parameterType="int">
+        delete from user where id = #{id}
+    </delete>
+</mapper>

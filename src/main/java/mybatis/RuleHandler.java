@@ -1,0 +1,101 @@
+package mybatis;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by zsc on 2017/11/16.
+ */
+public class RuleHandler {
+    public static void main(String args[]) {
+//        select();
+//        selectAll();
+//        insert();
+        insertAll();
+//        update();
+//        remove();
+
+    }
+    public static void select() {
+        SqlSession sqlSession = getSessionFactory().openSession();
+        RuleDao ruleDaoMapper = sqlSession.getMapper(RuleDao.class);
+        Rule rule = ruleDaoMapper.selectRuleById(7);
+        System.out.println(rule.getZhumai());
+    }
+
+    public static void selectAll() {
+        SqlSession sqlSession = getSessionFactory().openSession();
+        RuleDao ruleMapper = sqlSession.getMapper(RuleDao.class);
+        List<Rule> rule = ruleMapper.selectAllRules();
+        System.out.println(rule.get(0).getId());
+    }
+
+    public static void insert() {
+        SqlSession sqlSession = getSessionFactory().openSession();
+        RuleDao ruleMapper = sqlSession.getMapper(RuleDao.class);
+        Rule rule = new Rule(1, "aa","zsc", "11", "faff", "11", "faff", "aa", "aa");//xml中设置是否自动编号
+        ruleMapper.insertRule(rule);
+        sqlSession.commit();
+    }
+
+    public static void insertAll() {
+        SqlSession sqlSession = getSessionFactory().openSession();
+        RuleDao RuleMapper = sqlSession.getMapper(RuleDao.class);
+        //                        心气虚，     主症，   次证，    主舌质，    次舌质，    主舌苔，    次舌苔，    主脉
+        Rule rule1 = new Rule(1, "x","!aaw,aba,adr,acv,aar","aau,adq,add,adl,ado,ads,adp,aay,aaz",
+                "12", "faff",
+                "11", "faff",
+                "aa");//心气虚
+        Rule rule2 = new Rule(2, "g","!aaz,!aau,!aax,@abn,@acj,@abm,@ack,@acl,@acl,@aci",
+                "adc,aar,aas,aak,aal,aam,adg,adf,adk,aau,aav,aaf,aab,aad,aae,aax,adp,aao,aan,aaz,abm,adr,abp,act,acs,acw,acx,acy,acl,aco,acp,aau,add,acg,ach,abq,abz,acb,aby,aca,abw",
+                "faff", "11",
+                "faff", "aa",
+                "aa");//肝肾
+        Rule rule3 = new Rule(3, "p","aap,abl,abp,abx,acv",
+                "aar,aat,adn,adm,adq,add,abp,abd,abq,abx,adb,aag,abx,aaj,abc,abv,adc,acv,acz,aaq,abz,aby,aca,adk,adf,ace,aci,acg,aci",
+                "faff", "11",
+                "faff", "aa", "aa");//脾胃
+        List<Rule> list = new ArrayList<Rule>();
+        list.add(rule1);
+        list.add(rule2);
+        list.add(rule3);
+        RuleMapper.insertRule(rule1);
+        RuleMapper.insertRule(rule2);
+        RuleMapper.insertRule(rule3);
+        sqlSession.commit();
+    }
+
+
+    public static void update() {
+        SqlSession sqlSession = getSessionFactory().openSession();
+        RuleDao ruleMapper = sqlSession.getMapper(RuleDao.class);
+        Rule rule = ruleMapper.selectRuleById(7);
+        ruleMapper.updateRule(rule);
+        sqlSession.commit();
+    }
+
+    public static void remove() {
+        SqlSession sqlSession = getSessionFactory().openSession();
+        RuleDao ruleMapper = sqlSession.getMapper(RuleDao.class);
+        ruleMapper.deleteRule(1);
+        sqlSession.commit();
+    }
+
+    //Mybatis 通过SqlSessionFactory获取SqlSession, 然后才能通过SqlSession与数据库进行交互
+    private static SqlSessionFactory getSessionFactory() {
+        SqlSessionFactory sessionFactory = null;
+        String resource = "mybatis\\configuration.xml";
+        try {
+            sessionFactory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsReader(resource));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sessionFactory;
+    }
+}
