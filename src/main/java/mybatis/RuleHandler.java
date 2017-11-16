@@ -39,7 +39,7 @@ public class RuleHandler {
     public static void insert() {
         SqlSession sqlSession = getSessionFactory().openSession();
         RuleDao ruleMapper = sqlSession.getMapper(RuleDao.class);
-        Rule rule = new Rule(1, "aa","zsc", "11", "faff", "11", "faff", "aa", "aa");//xml中设置是否自动编号
+        Rule rule = new Rule(1, "aa","zsc", "11", "faff", "11", "faff", "aa", "aa","aa");//xml中设置是否自动编号
         ruleMapper.insertRule(rule);
         sqlSession.commit();
     }
@@ -47,20 +47,21 @@ public class RuleHandler {
     public static void insertAll() {
         SqlSession sqlSession = getSessionFactory().openSession();
         RuleDao RuleMapper = sqlSession.getMapper(RuleDao.class);
-        //                        心气虚，     主症，   次证，    主舌质，    次舌质，    主舌苔，    次舌苔，    主脉
+        //                        心气虚,     主症,   次证,    主舌质,    次舌质,    主舌苔,    次舌苔,    主脉,   次脉
         Rule rule1 = new Rule(1, "x","!aaw,aba,adr,acv,aar","aau,adq,add,adl,ado,ads,adp,aay,aaz",
-                "12", "faff",
-                "11", "faff",
-                "aa");//心气虚
-        Rule rule2 = new Rule(2, "g","!aaz,!aau,!aax,@abn,@acj,@abm,@ack,@acl,@acl,@aci",
+                "淡白", "淡红,胖,嫩,淡白",
+                "白,润", "薄,白,腻",
+                "虚","细,弱,涩,沉,缓,结,代");//心气虚
+        Rule rule2 = new Rule(2, "g","!aaz,!aau,!aax,@abn,@acj,@abm,@ack,@acl,@acd,@aci,#adj,#aao,#aas,#ade,#ads",
                 "adc,aar,aas,aak,aal,aam,adg,adf,adk,aau,aav,aaf,aab,aad,aae,aax,adp,aao,aan,aaz,abm,adr,abp,act,acs,acw,acx,acy,acl,aco,acp,aau,add,acg,ach,abq,abz,acb,aby,aca,abw",
-                "faff", "11",
-                "faff", "aa",
-                "aa");//肝肾
+                "红", "红,淡红,裂,绛",
+                "少", "少津,少,薄,白,黄,无",
+                "弦,细,数","数,沉,细,弦");//肝肾
         Rule rule3 = new Rule(3, "p","aap,abl,abp,abx,acv",
                 "aar,aat,adn,adm,adq,add,abp,abd,abq,abx,adb,aag,abx,aaj,abc,abv,adc,acv,acz,aaq,abz,aby,aca,adk,adf,ace,aci,acg,aci",
-                "faff", "11",
-                "faff", "aa", "aa");//脾胃
+                "淡白,胖,嫩,齿", "紫,胖,嫩",
+                "白", "白,腻,润",
+                "缓,弱","虚,沉,细,弱,数");//脾胃
         List<Rule> list = new ArrayList<Rule>();
         list.add(rule1);
         list.add(rule2);
