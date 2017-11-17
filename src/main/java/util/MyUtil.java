@@ -164,8 +164,8 @@ public class MyUtil {
     private static void genDic() throws Exception {
         String str = "浮 沉 迟 数 洪 细 虚 实 滑 涩 弦 紧 结 代 促 长 短 缓 濡 弱 微 散 芤 伏 牢 革 动 疾 " +
                 "淡红 淡白 红 白 绛 青 紫 " +
-                "老 嫩 胖 瘦 点 刺 裂纹 裂痕 齿痕 齿印 " +
-                "厚 薄 润 燥 少津 腻 腐 剥落 真 假 少 " +
+                "老 嫩 胖 瘦 点 刺 裂 齿 " +
+                "厚 薄 润 燥 少津 腻 腐 剥落 真 假 少 无 " +
                 "白 黄 灰黑";
         File out = new File("E:\\医案\\脉舌词典带标签.txt");
         if (!out.exists()) {
@@ -367,7 +367,7 @@ public class MyUtil {
      * @param termList 待过滤的字符串
      * @return 过滤后的症状字符串
      */
-    private static String getSymptom(List<Term> termList) {
+    public static String getSymptom(List<Term> termList) {
         List<Term> temp = new ArrayList<Term>();
         for (int i = 0; i < termList.size(); i++) {
             Term term = termList.get(i);
