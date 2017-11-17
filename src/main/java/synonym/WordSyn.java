@@ -33,7 +33,10 @@ public class WordSyn {
 //        explainSim("饮食不佳：缺乏食欲，饮食无味", "雀盲：白昼视力正常，每至黄昏视物模糊");
 //        explainSim("饮食不佳：缺乏食欲，饮食无味", "纳减：食欲减退，吃饭减少");
 
-        System.out.println("准确率 " + calAcc());
+        long a = System.currentTimeMillis();
+//        System.out.println("准确率 " + calAcc());
+        long b = System.currentTimeMillis();
+        System.out.println("time " + (b - a));
 //        for (String str : hashSet) {
 //            System.out.println(str);
 //        }

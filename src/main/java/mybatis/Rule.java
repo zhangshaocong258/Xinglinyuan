@@ -13,13 +13,14 @@ public class Rule {
     private String zhushetai;
     private String cishetai;
     private String zhumai;
+    private String cimai;
 
     public Rule() {
 
     }
 
 
-    public Rule(int id, String name, String zhuzheng, String cizheng, String zhushezhi, String cishezhi, String zhushetai, String cishetai, String zhumai) {
+    public Rule(int id, String name, String zhuzheng, String cizheng, String zhushezhi, String cishezhi, String zhushetai, String cishetai, String zhumai, String cimai) {
         this.id = id;
         this.name = name;
         this.zhuzheng = zhuzheng;
@@ -29,6 +30,7 @@ public class Rule {
         this.zhushetai = zhushetai;
         this.cishetai = cishetai;
         this.zhumai = zhumai;
+        this.cimai = cimai;
     }
 
     public int getId() {
@@ -101,5 +103,13 @@ public class Rule {
 
     public void setZhumai(String zhumai) {
         this.zhumai = zhumai;
+    }
+
+    public String getCimai() {
+        return cimai;
+    }
+
+    public void setCimai(String cimai) {
+        this.cimai = cimai;
     }
 }

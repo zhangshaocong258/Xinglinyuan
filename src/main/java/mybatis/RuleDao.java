@@ -13,6 +13,8 @@ public interface RuleDao {
 
     public Rule selectRuleById(int RuleId);
 
+    public Rule selectRuleByName(String name);
+
     public List<Rule> selectAllRules();
 
     public void updateRule(Rule Rule);

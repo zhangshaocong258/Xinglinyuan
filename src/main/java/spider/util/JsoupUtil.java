@@ -38,7 +38,7 @@ public class JsoupUtil {
         }
         //返回转换结果
         if (writer != null) {
-            Map<String, String> map = new HashMap<>();
+            Map<String, String> map = new HashMap<String, String>();
             String html = writer.toString();
             String baseUrl = "http://tcm.sstp.cn";
             Document document = Jsoup.parse(html, baseUrl);
