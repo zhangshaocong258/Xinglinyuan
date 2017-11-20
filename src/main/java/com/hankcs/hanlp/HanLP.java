@@ -12,7 +12,6 @@
 package com.hankcs.hanlp;
 
 import com.hankcs.hanlp.corpus.dependency.CoNll.CoNLLSentence;
-import com.hankcs.hanlp.corpus.io.FileIOAdapter;
 import com.hankcs.hanlp.corpus.io.IIOAdapter;
 import com.hankcs.hanlp.dependency.nnparser.NeuralNetworkDependencyParser;
 import com.hankcs.hanlp.dictionary.py.Pinyin;
@@ -28,7 +27,6 @@ import com.hankcs.hanlp.summary.TextRankSentence;
 import com.hankcs.hanlp.tokenizer.StandardTokenizer;
 import com.hankcs.hanlp.utility.Predefine;
 import com.hankcs.hanlp.utility.TextUtility;
-import sun.reflect.ReflectionFactory;
 
 import java.io.File;
 import java.io.FileInputStream;

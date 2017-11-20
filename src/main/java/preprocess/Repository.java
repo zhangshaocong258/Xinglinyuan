@@ -20,9 +20,10 @@ import java.util.*;
 public class Repository {
     private static final String synonymDicPath = "src\\main\\resources\\同义词new.txt";
     private static final String maishePath = "src\\main\\resources\\脉舌词典带标签.txt";
-    private static final String caseDataPath = "src\\main\\resources\\心气虚证";
+    private static final String caseDataPath = "src\\main\\resources\\处理后";
     private static final String featureFolder = "src\\main\\resources\\特征";
-    private static final String featureFile = "src\\main\\resources\\特征\\out.csv";
+    private static final String featureFile = "src\\main\\resources\\特征\\out2.csv";
+    private static BufferedWriter bw;
     private static HashMap<String, String> dicHashmap = new HashMap<String, String>();
     private static Forest forest;
     private static Rule x;
@@ -65,11 +66,13 @@ public class Repository {
     public static void main(String args[]) throws Exception {
         readDic(synonymDicPath);
         readForest(maishePath);
-//        getRule();
-//        createFile(featureFolder, featureFile);
+        getRule();
+        createFile(featureFolder, featureFile);
+        genFeature(caseDataPath);
+        bw.close();
+//        doGenFeature(new File("src\\main\\resources\\心气虚证\\xinqixu12.txt"));
+//        bw.close();
 
-//        genFeature(caseDataPath);
-        doGenFeature(new File("src\\main\\resources\\心气虚证\\xinqixu1.txt"));
 
 
     }
@@ -188,6 +191,7 @@ public class Repository {
         if (!file.exists()) {
             file.createNewFile();
         }
+        bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
     }
 
     /**
@@ -204,9 +208,7 @@ public class Repository {
             for (File file : files) {
                 genFeature(file.getAbsolutePath());
             }
-
         }
-
     }
 
     /**
@@ -215,6 +217,7 @@ public class Repository {
      * @param file
      */
     private static void doGenFeature(File file) throws Exception {
+//        System.out.println(file.getName());
         //对病例文件进行处理，生成list
         List<String> zhengzhuangList;
         List<String> shezhiList;
@@ -250,8 +253,13 @@ public class Repository {
 //        System.out.println("seg2 " + segSheZhi);
 //        System.out.println("seg3 " + segSheTai);
 //        System.out.println("seg4 " + segMaiXiang);
-
-
+        List<String> list = matchRule(zhengzhuangList, shezhiList, shetaiList, maiList);
+        for (String str : list) {
+            bw.write(str);
+            bw.write(",");
+        }
+        bw.write(file.getName().substring(0, 1));
+        bw.newLine();
     }
 
     /**
@@ -261,10 +269,9 @@ public class Repository {
      * @param shezhiList
      * @param shetaiList
      * @param maiList
-     * @param file
      */
     private static List<String> matchRule(List<String> zhengzhuangList, List<String> shezhiList, List<String> shetaiList,
-                                           List<String> maiList, File file) {
+                                           List<String> maiList) {
         List<String> list = new ArrayList<String>();
         int xZhuzheng1 = 0;
         int xZhuzheng2 = 0;
@@ -301,47 +308,47 @@ public class Repository {
 
         //统计个数
         for (String zhengzhuang : zhengzhuangList) {
-            if (xZhuzheng1Set.contains(zhengzhuang)) {
+            if (xZhuzheng1Set.contains(dicHashmap.get(zhengzhuang))) {
                 xZhuzheng1++;
             } 
-            if (xZhuzheng2Set.contains(zhengzhuang)) {
+            if (xZhuzheng2Set.contains(dicHashmap.get(zhengzhuang))) {
                 xZhuzheng2++;
             }
-            if (xCizhengSet.contains(zhengzhuang)) {
+            if (xCizhengSet.contains(dicHashmap.get(zhengzhuang))) {
                 xCizheng++;
             }
 
 
-            if (gZhuzheng1LeftSet.contains(zhengzhuang)) {
+            if (gZhuzheng1LeftSet.contains(dicHashmap.get(zhengzhuang))) {
                 gZhuzheng1Left++;
             }
-            if (gZhuzheng1RightSet.contains(zhengzhuang)) {
+            if (gZhuzheng1RightSet.contains(dicHashmap.get(zhengzhuang))) {
                 gZhuzheng1Right++;
             }
-            if (gZhuzheng2LeftSet.contains(zhengzhuang)) {
+            if (gZhuzheng2LeftSet.contains(dicHashmap.get(zhengzhuang))) {
                 gZhuzheng2Left++;
             }
-            if (gZhuzheng2RightSet.contains(zhengzhuang)) {
+            if (gZhuzheng2RightSet.contains(dicHashmap.get(zhengzhuang))) {
                 gZhuzheng2Right++;
             }
-            if (gZhuzheng3Set.contains(zhengzhuang)) {
+            if (gZhuzheng3Set.contains(dicHashmap.get(zhengzhuang))) {
                 gZhuzheng1Left++;
             }
-            if (gZhuzheng3Set.contains(zhengzhuang)) {
+            if (gZhuzheng3Set.contains(dicHashmap.get(zhengzhuang))) {
                 gZhuzheng3++;
             }
-            if (gCizhengSet.contains(zhengzhuang)) {
+            if (gCizhengSet.contains(dicHashmap.get(zhengzhuang))) {
                 gCizheng++;
             }
 
 
-            if (pZhuzheng1Set.contains(zhengzhuang)) {
-                xZhuzheng1++;
+            if (pZhuzheng1Set.contains(dicHashmap.get(zhengzhuang))) {
+                pZhuzheng1++;
             }
-            if (pZhuzheng2Set.contains(zhengzhuang)) {
+            if (pZhuzheng2Set.contains(dicHashmap.get(zhengzhuang))) {
                 pZhuzheng2++;
             }
-            if (pCizhengSet.contains(zhengzhuang)) {
+            if (pCizhengSet.contains(dicHashmap.get(zhengzhuang))) {
                 pCizheng++;
             }
         }
@@ -419,15 +426,16 @@ public class Repository {
         }
 
         //xRule1,主舌,主脉
-        list.add(df.format((double)(xZhuzheng1 + xZhuzheng2)/ 4));
+        list.add(df.format(Math.min(((double) xZhuzheng1 + xZhuzheng2) / 4, 1)));
         list.add("1");
         list.add(df.format((double) xZhushetai));
         list.add(df.format(((double) xZhushezhi / 2)));
         list.add(df.format((double) xZhumai));
 
         //xRule2
+//        System.out.println("zhuzheng1 " + xZhuzheng1 + " 2 " + xZhuzheng2);
         list.add(df.format(0.5 * xZhuzheng1 + 0.5 * (Math.min((double) xZhuzheng2 / 2, 1.0))));
-        list.add(df.format(Math.min(xCizheng, 1)));
+        list.add(df.format(Math.min(xCizheng, 1)));//一个或见证
         list.add(df.format((double) xZhushezhi));
         list.add(df.format((double) xZhushetai / 2));
         list.add(df.format((double) xZhumai));
@@ -442,7 +450,8 @@ public class Repository {
         //gRule1
         list.add(df.format((double) 1 / 3 * Math.min(((double) gZhuzheng1Left + gZhuzheng1Right) / 2, 1) +
                 (double) 1 / 3 * Math.min(((double) gZhuzheng2Left + gZhuzheng2Right) / 2, 1) +
-                (double) 1 / 3 * Math.min((double) gZhuzheng3 / 2, 1)));
+                (double) 1 / 3 * Math.min((double) gZhuzheng3 / 3, 1)));
+        list.add("1");
         list.add(df.format((double) gZhushetai));
         list.add(df.format((double) gZhushezhi));
         list.add(df.format((double) xZhumai));
@@ -450,8 +459,57 @@ public class Repository {
         //gRule2
         list.add(df.format((double) 1 / 3 * Math.min(((double) gZhuzheng1Left + gZhuzheng1Right) / 2, 1) +
                 (double) 1 / 3 * Math.min((double) gZhuzheng2Left + gZhuzheng2Right, 1) +
-                (double) 1 / 3 * Math.min((double) gZhuzheng3 / 2, 1)));
+                (double) 1 / 3 * Math.min((double) gZhuzheng3 / 3, 1)));
+        list.add(df.format(Math.min(gCizheng, 1)));
+        list.add(df.format(Math.min(gZhushezhi + gCishezhi, 1)));
+        list.add(df.format(Math.min(gZhushetai + gCishetai, 1)));
+        list.add(df.format(Math.min(gZhumai + gCimai, 1)));
 
+        //gRule3
+        list.add(df.format((double) 1 / 3 * Math.min(gZhuzheng1Left, 1) +
+                (double) 1 / 3 * Math.min(((double) gZhuzheng2Left + gZhuzheng2Right) / 2, 1) +
+                (double) 1 / 3 * Math.min((double) gZhuzheng3 / 3, 1)));
+        list.add(df.format(Math.min(gCizheng, 1)));
+        list.add(df.format(Math.min(gZhushezhi + gCishezhi, 1)));
+        list.add(df.format(Math.min(gZhushetai + gCishetai, 1)));
+        list.add(df.format(Math.min(gZhumai + gCimai, 1)));
+
+        //gRule4
+        list.add(df.format((double) 1 / 3 * Math.min(gZhuzheng1Left, 1) +
+                (double) 1 / 3 * Math.min(gZhuzheng2Left / 5, 1) +
+                (double) 1 / 3 * Math.min((double) gZhuzheng3 / 3, 1)));
+        list.add(df.format(Math.min((double) gCizheng / 3, 1)));
+        list.add(df.format(Math.min(gZhushezhi + gCishezhi, 1)));
+        list.add(df.format(Math.min(gZhushetai + gCishetai, 1)));
+        list.add(df.format(Math.min(gZhumai + gCimai, 1)));
+
+        //pRule1
+        list.add(df.format((double)(pZhuzheng1 + pZhuzheng2)/ 4));
+        list.add("1");
+        list.add(df.format((double) pZhushetai / 4));
+        list.add(df.format(((double) pZhushezhi)));
+        list.add(df.format((double) pZhumai));
+
+        //pRule2
+        list.add(df.format((double) (pZhuzheng1 + pZhuzheng2) / 4));
+        list.add(df.format(Math.min(pCizheng, 1)));//一个或见证
+        list.add(df.format(Math.min(pZhushezhi + pCishezhi, 1)));
+        list.add(df.format(Math.min(pZhushetai + pCishetai, 1)));
+        list.add(df.format(Math.min(pZhumai + pCimai, 1)));
+
+        //pRule3
+        list.add(df.format((double) (pZhuzheng1 + pZhuzheng2) / 3));
+        list.add(df.format(Math.min((double) pCizheng / 2, 1)));
+        list.add(df.format((double) pZhushetai / 4));
+        list.add(df.format(((double) pZhushezhi)));
+        list.add(df.format(Math.min(pZhumai + pCimai, 1)));
+
+        //pRule4
+        list.add(df.format((double) (pZhuzheng1) / 2));
+        list.add(df.format(Math.min((double) pCizheng / 3, 1)));
+        list.add(df.format(Math.min(pZhushezhi + pCishezhi, 1)));
+        list.add(df.format(Math.min(pZhushetai + pCishetai, 1)));
+        list.add(df.format(Math.min(pZhumai + pCimai, 1)));
         return list;
 
     }

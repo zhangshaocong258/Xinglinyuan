@@ -2,6 +2,7 @@ package util;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.seg.common.Term;
+import org.apache.http.io.BufferInfo;
 import tree.domain.Forest;
 import tree.library.Library;
 import tree.splitWord.GetWord;
@@ -36,10 +37,37 @@ public class MyUtil {
 //        maisheFix();
 //        genExplainDic();
 //        synonymyNew();
+        genTestData();
     }
 
 
-    private static void diseaseFix() throws Exception{
+    private static void genTestData() throws Exception {
+        String allData = "src\\main\\resources\\特征\\iris.csv";
+        String trainData = "src\\main\\resources\\特征\\iristrain.csv";
+        String testData = "src\\main\\resources\\特征\\iristest.csv";
+        BufferedReader all = new BufferedReader(new InputStreamReader(new FileInputStream(allData)));
+        BufferedWriter train = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(trainData)));
+        BufferedWriter test = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(testData)));
+//        for (int i = 1; i < 56; i++) {
+//            train.write("a" + i + ",");
+//            test.write("a" + i + ",");
+//        }
+//        train.write("label");
+//        test.write("label");
+//        train.newLine();
+//        test.newLine();
+        String line;
+        while ((line = all.readLine()) != null) {
+            if (Math.random() >= 0.3) {
+                train.write(line);
+                train.newLine();
+            } else {
+                test.write(line);
+                test.newLine();
+            }
+        }
+        train.close();
+        test.close();
 
     }
 
