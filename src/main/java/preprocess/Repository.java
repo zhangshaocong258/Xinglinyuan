@@ -20,7 +20,7 @@ import java.util.*;
 public class Repository {
     private static final String synonymDicPath = "src\\main\\resources\\同义词new.txt";
     private static final String maishePath = "src\\main\\resources\\脉舌词典带标签.txt";
-    private static final String caseDataPath = "src\\main\\resources\\所有数据";
+    private static final String caseDataPath = "src\\main\\resources\\处理后";
     private static final String featureFolder = "src\\main\\resources\\特征";
     private static final String featureFile = "src\\main\\resources\\特征\\out.csv";
     private static BufferedWriter bw;
@@ -63,10 +63,13 @@ public class Repository {
     private static HashSet<String> pCimaiSet = new HashSet<String>();
     private static DecimalFormat df = new DecimalFormat("######0.0000");
 
+    private static List<String> matchList = new ArrayList<String>();
+
     public static void main(String args[]) throws Exception {
         readDic(synonymDicPath);
         readForest(maishePath);
-        getRule();
+        genRepository();
+        genRepositoryWithoutRule();
         createFile(featureFolder, featureFile);
         genFeature(caseDataPath);
         bw.close();
@@ -104,7 +107,7 @@ public class Repository {
                 new FileInputStream(new File(maishePath)))));
     }
 
-    private static void getRule() {
+    private static void genRepository() {
         x = RuleHandler.selectByName("x");
         g = RuleHandler.selectByName("g");
         p = RuleHandler.selectByName("p");
@@ -253,7 +256,8 @@ public class Repository {
 //        System.out.println("seg2 " + segSheZhi);
 //        System.out.println("seg3 " + segSheTai);
 //        System.out.println("seg4 " + segMaiXiang);
-        List<String> list = matchRule(zhengzhuangList, shezhiList, shetaiList, maiList);
+//        List<String> list = matchRule(zhengzhuangList, shezhiList, shetaiList, maiList);
+        List<String> list = matchWithoutRule(zhengzhuangList, shezhiList, shetaiList, maiList);
         for (String str : list) {
             bw.write(str);
             bw.write(",");
@@ -261,6 +265,98 @@ public class Repository {
         bw.write(file.getName().substring(0, 1));
         bw.newLine();
     }
+
+
+    private static void genRepositoryWithoutRule() {
+        //规则库初始化
+        String head = "aaa";
+        matchList.add(head);
+        for (int i = 0; i < 96; i++) {
+            char[] chars = head.toCharArray();
+            if (chars[2] >= 122) {
+                if (chars[1] >= 122) {
+                    if (chars[0] >= 122) {
+                        throw new IndexOutOfBoundsException();
+                    } else {
+                        chars[0] += 1;
+                        chars[1] = 'a';
+                        chars[2] = 'a';
+                    }
+                } else {
+                    chars[1] += 1;
+                    chars[2] = 'a';
+                }
+            } else {
+                chars[2] += 1;
+            }
+            head = String.valueOf(chars);
+            matchList.add(head);
+        }
+        String[] shezhiStr = "淡红 淡白 红 白 绛 青 紫 老 嫩 胖 瘦 点 刺 裂 齿".split(" ");
+        String[] shetaiStr = "厚 薄 润 燥 少津 腻 腐 剥落 真 假 少 无 白 黄 灰黑".split(" ");
+        String[] maiStr = "浮 沉 迟 数 洪 细 虚 实 滑 涩 弦 紧 结 代 促 长 短 缓 濡 弱 微 散 芤 伏 牢 革 动 疾".split(" ");
+
+        matchList.addAll(Arrays.asList(shezhiStr));
+        matchList.addAll(Arrays.asList(shetaiStr));
+        matchList.addAll(Arrays.asList(maiStr));
+
+    }
+
+
+    /**
+     *
+     * @param zhengzhuangList
+     * @param shezhiList
+     * @param shetaiList
+     * @param maiList
+     * @return
+     */
+
+    private static List<String> matchWithoutRule(List<String> zhengzhuangList, List<String> shezhiList, List<String> shetaiList,
+                                                 List<String> maiList) {
+
+        List<String> list = new ArrayList<String>();
+        HashSet<String> zhengzhuangHashSet = new HashSet<String>();
+        HashSet<String> shezhiHashSet = new HashSet<String>(shezhiList);
+        HashSet<String> shetaiHashSet = new HashSet<String>(shetaiList);
+        HashSet<String> maiHashSet = new HashSet<String>(maiList);
+
+        for (String s : zhengzhuangList) {
+            zhengzhuangHashSet.add(dicHashmap.get(s));
+        }
+
+
+        for (int i = 0; i < matchList.size(); i++) {
+            if (i <= 95) {
+                if (zhengzhuangHashSet.contains(matchList.get(i))) {
+                    list.add("1");
+                } else {
+                    list.add("0");
+                }
+            } else if (i > 95 && i <= 110) {
+                if (shezhiHashSet.contains(matchList.get(i))) {
+                    list.add("1");
+                } else {
+                    list.add("0");
+                }
+            } else if (i > 110 && i <= 125) {
+                if (shetaiHashSet.contains(matchList.get(i))) {
+                    list.add("1");
+                } else {
+                    list.add("0");
+                }
+            } else {
+                if (maiHashSet.contains(matchList.get(i))) {
+                    list.add("1");
+                } else {
+                    list.add("0");
+                }
+            }
+        }
+
+        return list;
+    }
+
 
     /**
      * 对得到的病例list数据进行匹配
