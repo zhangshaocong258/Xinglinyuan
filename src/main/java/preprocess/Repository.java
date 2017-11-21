@@ -20,9 +20,9 @@ import java.util.*;
 public class Repository {
     private static final String synonymDicPath = "src\\main\\resources\\同义词new.txt";
     private static final String maishePath = "src\\main\\resources\\脉舌词典带标签.txt";
-    private static final String caseDataPath = "src\\main\\resources\\处理后";
+    private static final String caseDataPath = "src\\main\\resources\\合并";
     private static final String featureFolder = "src\\main\\resources\\特征";
-    private static final String featureFile = "src\\main\\resources\\特征\\out.csv";
+    private static final String featureFile = "src\\main\\resources\\特征\\outNo2.csv";
     private static BufferedWriter bw;
     private static HashMap<String, String> dicHashmap = new HashMap<String, String>();
     private static Forest forest;
@@ -335,19 +335,19 @@ public class Repository {
                 }
             } else if (i > 95 && i <= 110) {
                 if (shezhiHashSet.contains(matchList.get(i))) {
-                    list.add("1");
+                    list.add("2");
                 } else {
                     list.add("0");
                 }
             } else if (i > 110 && i <= 125) {
                 if (shetaiHashSet.contains(matchList.get(i))) {
-                    list.add("1");
+                    list.add("3");
                 } else {
                     list.add("0");
                 }
             } else {
                 if (maiHashSet.contains(matchList.get(i))) {
-                    list.add("1");
+                    list.add("4");
                 } else {
                     list.add("0");
                 }
