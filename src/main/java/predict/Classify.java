@@ -19,8 +19,12 @@ public class Classify {
     private static Classifier classifier = null;
 
     public static void main(String args[]) {
+        long a = System.currentTimeMillis();
 //        baseClassify();
         network();
+        long b = System.currentTimeMillis();
+        System.out.println("time " + (b - a));
+
     }
 
 
@@ -29,7 +33,10 @@ public class Classify {
      */
     private static void network() {
         try {
-            File file = new File("src\\main\\resources\\特征\\out2.arff");
+
+            //outall:0.9796 outall2:0.9851 delete: 0.8592 delete0: 0.9148 outRule: 0.9574(时间83085)keras:0.9425 outNo:0.9777(时间795816)
+            //xgboost： outRule: 0.9590 outNo2: 0.9670
+            File file = new File("src\\main\\resources\\特征\\outRule.arff");
             ArffLoader arffLoader = new ArffLoader();
             arffLoader.setFile(file);
             instancesTrain = arffLoader.getDataSet();
@@ -57,7 +64,7 @@ public class Classify {
      */
     private static void baseClassify() {
         try {
-            File file = new File("src\\main\\resources\\特征\\out2.arff");
+            File file = new File("src\\main\\resources\\特征\\outNo.arff");
             ArffLoader arffLoader = new ArffLoader();
             arffLoader.setFile(file);
             instancesTrain = arffLoader.getDataSet();
@@ -69,9 +76,13 @@ public class Classify {
             instancesTrain.setClassIndex(instancesTrain.numAttributes() - 1);
 //            instancesTest.setClassIndex(instancesTest.numAttributes() - 1);
 
-
+            //outall：0.8759 outall2:0.85 delete: 0.81111  delete0:0.9481 outRule: 0.8388888 outNo:0.9648
 //            classifier = (Classifier) Class.forName("weka.classifiers.bayes.NaiveBayes").newInstance();
+
+            //outall:0.8944 outall2:0.9 delete: 0.81111 delete0: 0.8926 outRule:0.8870 outNo: 0.9444
 //            classifier = (Classifier) Class.forName("weka.classifiers.functions.LibSVM").newInstance();
+
+            //outall:0.9296 outall2:0.9333 delete:0.7814 delete0: 0.83333 outRule: 0.89444 outNo: 0.9240
             classifier = (Classifier) Class.forName("weka.classifiers.trees.J48").newInstance();
 
             classifier.buildClassifier(instancesTrain);
