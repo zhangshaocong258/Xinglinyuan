@@ -20,9 +20,9 @@ import java.util.*;
 public class Repository {
     private static final String synonymDicPath = "src\\main\\resources\\同义词new.txt";
     private static final String maishePath = "src\\main\\resources\\脉舌词典带标签.txt";
-    private static final String caseDataPath = "src\\main\\resources\\处理后";
+    private static final String caseDataPath = "src\\main\\resources\\所有数据";
     private static final String featureFolder = "src\\main\\resources\\特征";
-    private static final String featureFile = "src\\main\\resources\\特征\\out2.csv";
+    private static final String featureFile = "src\\main\\resources\\特征\\out.csv";
     private static BufferedWriter bw;
     private static HashMap<String, String> dicHashmap = new HashMap<String, String>();
     private static Forest forest;
@@ -434,14 +434,14 @@ public class Repository {
 
         //xRule2
 //        System.out.println("zhuzheng1 " + xZhuzheng1 + " 2 " + xZhuzheng2);
-        list.add(df.format(0.5 * xZhuzheng1 + 0.5 * (Math.min((double) xZhuzheng2 / 2, 1.0))));
+        list.add(df.format(0.5 * Math.min(xZhuzheng1, 1) + 0.5 * (Math.min((double) xZhuzheng2 / 2, 1.0))));
         list.add(df.format(Math.min(xCizheng, 1)));//一个或见证
         list.add(df.format((double) xZhushezhi));
         list.add(df.format((double) xZhushetai / 2));
         list.add(df.format((double) xZhumai));
 
         //xRule3,任何舌脉
-        list.add(df.format(0.5 * xZhuzheng1 + 0.5 * (Math.min((double) xZhuzheng2 / 2, 1.0))));
+        list.add(df.format(0.5 * Math.min(xZhuzheng1, 1) + 0.5 * (Math.min((double) xZhuzheng2 / 2, 1.0))));
         list.add(df.format(Math.min((double) xCizheng / 2, 1)));
         list.add(df.format(Math.min(xZhushezhi + xCishezhi, 1)));
         list.add(df.format(Math.min(xZhushetai + xCishetai, 1)));
@@ -484,28 +484,28 @@ public class Repository {
         list.add(df.format(Math.min(gZhumai + gCimai, 1)));
 
         //pRule1
-        list.add(df.format((double)(pZhuzheng1 + pZhuzheng2)/ 4));
+        list.add(df.format(Math.min((double) (pZhuzheng1 + pZhuzheng2) / 4, 1)));
         list.add("1");
         list.add(df.format((double) pZhushetai / 4));
         list.add(df.format(((double) pZhushezhi)));
         list.add(df.format((double) pZhumai));
 
         //pRule2
-        list.add(df.format((double) (pZhuzheng1 + pZhuzheng2) / 4));
+        list.add(df.format(Math.min((double) (pZhuzheng1 + pZhuzheng2) / 4, 1)));
         list.add(df.format(Math.min(pCizheng, 1)));//一个或见证
         list.add(df.format(Math.min(pZhushezhi + pCishezhi, 1)));
         list.add(df.format(Math.min(pZhushetai + pCishetai, 1)));
         list.add(df.format(Math.min(pZhumai + pCimai, 1)));
 
         //pRule3
-        list.add(df.format((double) (pZhuzheng1 + pZhuzheng2) / 3));
+        list.add(df.format(Math.min(((double) pZhuzheng1 + pZhuzheng2) / 3, 1)));
         list.add(df.format(Math.min((double) pCizheng / 2, 1)));
         list.add(df.format((double) pZhushetai / 4));
         list.add(df.format(((double) pZhushezhi)));
         list.add(df.format(Math.min(pZhumai + pCimai, 1)));
 
         //pRule4
-        list.add(df.format((double) (pZhuzheng1) / 2));
+        list.add(df.format(Math.min(((double) pZhuzheng1) / 2, 1)));
         list.add(df.format(Math.min((double) pCizheng / 3, 1)));
         list.add(df.format(Math.min(pZhushezhi + pCishezhi, 1)));
         list.add(df.format(Math.min(pZhushetai + pCishetai, 1)));
