@@ -15,6 +15,12 @@ import java.util.*;
  * 解释 词语: 解释
  * 主题词 词语: 解释
  * 哈工大社会计算与信息检索研究中心同义词词林扩展版
+ * 准确率 0.8156565656565656
+ * time 71792
+ * 准确率 0.8106060606060606
+ * time 84561
+ * 准确率 0.76010101010101
+ * time 232539
  */
 public class WordSyn {
 
@@ -289,27 +295,27 @@ public class WordSyn {
                         tempHashSet.add(tempCoding1.substring(0, 1));
                     }
                 }
-//                if (tempHashSet.contains("I") || tempHashSet.contains("E")) {
-//                    Iterator<String> tempIterator = codingList1.iterator();
-//                    while (tempIterator.hasNext()) {
-//                        String tempCoding1 = tempIterator.next();
-//                        if (!tempCoding1.startsWith("I") || !tempCoding1.startsWith("I")) {
-//                            tempIterator.remove();
-//                        }
-//                    }
-//                }
-//                else if (tempHashSet.contains("E")) {
-//                    Iterator<String> tempIterator = codingList1.iterator();
-//                    while (tempIterator.hasNext()) {
-//                        String tempCoding1 = tempIterator.next();
-//                        if (!tempCoding1.startsWith("E")) {
-//                            tempIterator.remove();
-//                        }
-//                    }
-//                }
-//                else {
-//                    throw new Exception("a匹配错误");
-//                }
+                if (tempHashSet.contains("I") || tempHashSet.contains("E")) {
+                    Iterator<String> tempIterator = codingList1.iterator();
+                    while (tempIterator.hasNext()) {
+                        String tempCoding1 = tempIterator.next();
+                        if (!tempCoding1.startsWith("I") || !tempCoding1.startsWith("I")) {
+                            tempIterator.remove();
+                        }
+                    }
+                }
+                else if (tempHashSet.contains("E")) {
+                    Iterator<String> tempIterator = codingList1.iterator();
+                    while (tempIterator.hasNext()) {
+                        String tempCoding1 = tempIterator.next();
+                        if (!tempCoding1.startsWith("E")) {
+                            tempIterator.remove();
+                        }
+                    }
+                }
+                else {
+                    throw new Exception("a匹配错误");
+                }
 
 
             } else if (para1.equals("d")) {
@@ -337,43 +343,43 @@ public class WordSyn {
                     }
                 }
 
-//                if (tempHashSet.contains("G") || tempHashSet.contains("F") || tempHashSet.contains("H")|| tempHashSet.contains("K")) {
-//                    Iterator<String> tempIterator = codingList1.iterator();
-//                    while (tempIterator.hasNext()) {
-//                        String tempCoding1 = tempIterator.next();
-//                        if (!tempCoding1.startsWith("G") || !tempCoding1.startsWith("F")|| !tempCoding1.startsWith("H")|| !tempCoding1.startsWith("K")) {
-//                            tempIterator.remove();
-//                        }
-//                    }
-//                }
-//                else if (tempHashSet.contains("F")) {
-//                    Iterator<String> tempIterator = codingList1.iterator();
-//                    while (tempIterator.hasNext()) {
-//                        String tempCoding1 = tempIterator.next();
-//                        if (!tempCoding1.startsWith("F")) {
-//                            tempIterator.remove();
-//                        }
-//                    }
-//                } else if (tempHashSet.contains("H")) {
-//                    Iterator<String> tempIterator = codingList1.iterator();
-//                    while (tempIterator.hasNext()) {
-//                        String tempCoding1 = tempIterator.next();
-//                        if (!tempCoding1.startsWith("H")) {
-//                            tempIterator.remove();
-//                        }
-//                    }
-//                } else if (tempHashSet.contains("K")) {
-//                    Iterator<String> tempIterator = codingList1.iterator();
-//                    while (tempIterator.hasNext()) {
-//                        String tempCoding1 = tempIterator.next();
-//                        if (!tempCoding1.startsWith("K")) {
-//                            tempIterator.remove();
-//                        }
-//                    }
-//                }
-//                else {
-//                    throw new Exception("v匹配错误");
-//                }
+                if (tempHashSet.contains("G") || tempHashSet.contains("F") || tempHashSet.contains("H")|| tempHashSet.contains("K")) {
+                    Iterator<String> tempIterator = codingList1.iterator();
+                    while (tempIterator.hasNext()) {
+                        String tempCoding1 = tempIterator.next();
+                        if (!tempCoding1.startsWith("G") || !tempCoding1.startsWith("F")|| !tempCoding1.startsWith("H")|| !tempCoding1.startsWith("K")) {
+                            tempIterator.remove();
+                        }
+                    }
+                }
+                else if (tempHashSet.contains("F")) {
+                    Iterator<String> tempIterator = codingList1.iterator();
+                    while (tempIterator.hasNext()) {
+                        String tempCoding1 = tempIterator.next();
+                        if (!tempCoding1.startsWith("F")) {
+                            tempIterator.remove();
+                        }
+                    }
+                } else if (tempHashSet.contains("H")) {
+                    Iterator<String> tempIterator = codingList1.iterator();
+                    while (tempIterator.hasNext()) {
+                        String tempCoding1 = tempIterator.next();
+                        if (!tempCoding1.startsWith("H")) {
+                            tempIterator.remove();
+                        }
+                    }
+                } else if (tempHashSet.contains("K")) {
+                    Iterator<String> tempIterator = codingList1.iterator();
+                    while (tempIterator.hasNext()) {
+                        String tempCoding1 = tempIterator.next();
+                        if (!tempCoding1.startsWith("K")) {
+                            tempIterator.remove();
+                        }
+                    }
+                }
+                else {
+                    throw new Exception("v匹配错误");
+                }
             } else if (para1.equals("z")) {
                 Iterator<String> iterator = codingList1.iterator();
                 while (iterator.hasNext()) {
@@ -399,42 +405,42 @@ public class WordSyn {
                     }
                 }
 
-//                if (tempHashSet.contains("D")) {
-//                    Iterator<String> tempIterator = codingList1.iterator();
-//                    while (tempIterator.hasNext()) {
-//                        String tempCoding1 = tempIterator.next();
-//                        if (!tempCoding1.startsWith("D")) {
-//                            tempIterator.remove();
-//                        }
-//                    }
-//                } else if (tempHashSet.contains("C")) {
-//                    Iterator<String> tempIterator = codingList1.iterator();
-//                    while (tempIterator.hasNext()) {
-//                        String tempCoding1 = tempIterator.next();
-//                        if (!tempCoding1.startsWith("C")) {
-//                            tempIterator.remove();
-//                        }
-//                    }
-//                } else if (tempHashSet.contains("B")) {
-//                    Iterator<String> tempIterator = codingList1.iterator();
-//                    while (tempIterator.hasNext()) {
-//                        String tempCoding1 = tempIterator.next();
-//                        if (!tempCoding1.startsWith("B")) {
-//                            tempIterator.remove();
-//                        }
-//                    }
-//                } else if (tempHashSet.contains("A")) {
-//                    Iterator<String> tempIterator = codingList1.iterator();
-//                    while (tempIterator.hasNext()) {
-//                        String tempCoding1 = tempIterator.next();
-//                        if (!tempCoding1.startsWith("A")) {
-//                            tempIterator.remove();
-//                        }
-//                    }
-//                } else {
-//                    System.out.println(w1 + " " + para1);
-//                    throw new Exception("N匹配错误");
-//                }
+                if (tempHashSet.contains("D")) {
+                    Iterator<String> tempIterator = codingList1.iterator();
+                    while (tempIterator.hasNext()) {
+                        String tempCoding1 = tempIterator.next();
+                        if (!tempCoding1.startsWith("D")) {
+                            tempIterator.remove();
+                        }
+                    }
+                } else if (tempHashSet.contains("C")) {
+                    Iterator<String> tempIterator = codingList1.iterator();
+                    while (tempIterator.hasNext()) {
+                        String tempCoding1 = tempIterator.next();
+                        if (!tempCoding1.startsWith("C")) {
+                            tempIterator.remove();
+                        }
+                    }
+                } else if (tempHashSet.contains("B")) {
+                    Iterator<String> tempIterator = codingList1.iterator();
+                    while (tempIterator.hasNext()) {
+                        String tempCoding1 = tempIterator.next();
+                        if (!tempCoding1.startsWith("B")) {
+                            tempIterator.remove();
+                        }
+                    }
+                } else if (tempHashSet.contains("A")) {
+                    Iterator<String> tempIterator = codingList1.iterator();
+                    while (tempIterator.hasNext()) {
+                        String tempCoding1 = tempIterator.next();
+                        if (!tempCoding1.startsWith("A")) {
+                            tempIterator.remove();
+                        }
+                    }
+                } else {
+                    System.out.println(w1 + " " + para1);
+                    throw new Exception("N匹配错误");
+                }
             }
         }
 
