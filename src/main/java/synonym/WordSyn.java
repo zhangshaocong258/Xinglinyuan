@@ -21,6 +21,14 @@ import java.util.*;
  * time 84561
  * 准确率 0.76010101010101
  * time 232539
+ *
+ *
+ *
+ * 改2：
+ * 准确率 0.8383838383838383
+ * time 71557
+ * 准确率 0.7676767676767676
+ * time 205629
  */
 public class WordSyn {
 
@@ -36,8 +44,8 @@ public class WordSyn {
         readDic(path1, path2);
 //        System.out.println(sim("水果\\l", "火炉\\l"));
 //        System.out.println(sim("失眠", "出汗"));
-//        explainSim("饮食不佳：缺乏食欲，饮食无味", "雀盲：白昼视力正常，每至黄昏视物模糊");
-//        explainSim("饮食不佳：缺乏食欲，饮食无味", "纳减：食欲减退，吃饭减少");
+//        explainSim("纳谷不香：食欲不好，饮食无味，吃饭减少", "耳鸣：无相应的外界声源或电刺激，而主观上在耳内或颅内有声音感觉");
+//        explainSim("纳谷不香：食欲不好，饮食无味，吃饭减少", "纳减：食欲减退，吃饭减少");
 
         long a = System.currentTimeMillis();
         System.out.println("准确率 " + calAcc());
