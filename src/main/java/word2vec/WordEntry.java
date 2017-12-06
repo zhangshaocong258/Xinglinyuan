@@ -14,7 +14,7 @@ public class WordEntry implements Comparable<WordEntry> {
 
     @Override
     public String toString() {
-        return "|" + this.name;
+        return this.name;
 //        return this.name + "\t" + score;
     }
 

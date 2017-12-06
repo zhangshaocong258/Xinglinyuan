@@ -7,12 +7,18 @@
     <resultMap id="UserMap" type="User">
         <id property="id" column="id" />
         <result property="userName" column="userName" />
+        <result property="userPassword" column="userPassword" />
+        <result property="realName" column="realName" />
         <result property="userAge" column="userAge" />
-        <result property="userAddress" column="userAddress" />
+        <result property="userAddr" column="userAddr" />
     </resultMap>
 
     <select id="selectUserById" resultType="User" >
         select * from user where id = #{id}
+    </select>
+
+    <select id="selectUserByName" parameterType="String" resultType="User" >
+        select * from user where userName = #{userName}
     </select>
 
     <select id="selectAllUsers" resultMap="UserMap" >
@@ -21,12 +27,22 @@
 
     <!--加上id，否则自动增加id-->
     <insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
-        insert into user(userName,userAge,userAddress)
-        values(#{userName},#{userAge},#{userAddress})
+        insert into user(userName,userPassword,realName,userAge,userAddr)
+        values(#{userName},#{userPassword},#{realName},#{userAge},#{userAddr})
+    </insert>
+
+    <insert id="insertAllUser" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into user(userName,userPassword,realName,userAge,userAddr) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.userName},#{item.userPassword},#{item.realName},#{item.userAge},#{item.userAddr})
+        </foreach>
     </insert>
 
     <update id="updateUser" parameterType="User" >
-        update user set userName=#{userName},userAge=#{userAge},userAddress=#{userAddress} where id=#{id}
+        update user set userName=#{userName},userPassword=#{userPassword},realName=#{realName},userAge=#{userAge},userAddr=#{userAddr} where id=#{id}
     </update>
 
     <delete id="deleteUser" parameterType="int">

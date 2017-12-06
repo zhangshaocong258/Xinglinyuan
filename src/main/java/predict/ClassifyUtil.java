@@ -27,9 +27,10 @@ public class ClassifyUtil {
         List<String> shetaiList = new ArrayList<String>();
         List<String> maiList = new ArrayList<String>();
         zhengzhuangList.add("心悸");
-        zhengzhuangList.add("胸闷");
         zhengzhuangList.add("头晕");
-        zhengzhuangList.add("疲乏无力");
+        zhengzhuangList.add("胸闷");
+
+//        zhengzhuangList.add("疲乏无力");
         zhengzhuangList.add("少气懒言");
         zhengzhuangList.add("畏寒肢冷");
 
@@ -38,11 +39,13 @@ public class ClassifyUtil {
         shetaiList.add("薄");
         shetaiList.add("白");
 
-        maiList.add("沉迟");
+        maiList.add("沉");
+        maiList.add("迟");
+
 
         Repository.readDic(synonymDicPath);
         Repository.genRepository();
-        train(modelOutPath, dataInPath,true);
+        train(modelOutPath, dataInPath, true);
         predict(zhengzhuangList, shezhiList, shetaiList, maiList);
 
     }

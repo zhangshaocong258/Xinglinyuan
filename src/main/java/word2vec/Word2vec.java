@@ -12,23 +12,30 @@ import java.util.*;
  */
 public class Word2vec {
     public static void main(String[] args) throws Exception {
+//        Word2vec word2vec = new Word2vec();
+//        word2vec.loadGoogleModel("E:\\word2vec\\Google_word2vec_zhwiki1710_300d.bin");
+//        String path1 = "src\\main\\resources\\主题词.txt";
+//        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path1)));
+//        String string = br.readLine();
+//        while (string != null) {
+//            Forest forest = Library.makeForest(new BufferedReader(new InputStreamReader(
+//                    new FileInputStream(new File("src\\main\\resources\\解释词典带标签.txt")))));
+//
+//            String segSheZhi = MyUtil.getSegResult(forest,string.split("：")[1]);
+//            String[] strings = segSheZhi.split(",");
+//            for (String str : strings) {
+//                System.out.println(word2vec.distance(str.trim()).toString().replace(", ",""));
+//            }
+//            string = br.readLine();
+//        }
+        String standard = "src\\main\\resources\\标准.txt";
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(standard)));
+        String line;
         Word2vec word2vec = new Word2vec();
-        word2vec.loadGoogleModel("E:\\word2vec\\Google_word2vec_zhwiki1710_300d.bin");
-        String path1 = "src\\main\\resources\\主题词.txt";
-        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path1)));
-        String string = br.readLine();
-        while (string != null) {
-            Forest forest = Library.makeForest(new BufferedReader(new InputStreamReader(
-                    new FileInputStream(new File("src\\main\\resources\\解释词典带标签.txt")))));
-
-            String segSheZhi = MyUtil.getSegResult(forest,string.split("：")[1]);
-            String[] strings = segSheZhi.split(",");
-            for (String str : strings) {
-                System.out.println(word2vec.distance(str.trim()).toString().replace(", ",""));
-            }
-            string = br.readLine();
+        word2vec.loadGoogleModel("E:\\word2vec\\vec5.bin");
+        while ((line = br.readLine()) != null) {
+            System.out.println(word2vec.distance(line));
         }
-
     }
 
     private HashMap<String, float[]> wordMap = new HashMap<String, float[]>();

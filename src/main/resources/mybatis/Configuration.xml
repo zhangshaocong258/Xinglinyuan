@@ -6,6 +6,7 @@
     <typeAliases>
         <typeAlias alias="User" type="mybatis.User"/>
         <typeAlias alias="Rule" type="mybatis.Rule"/>
+        <typeAlias alias="Discase" type="mybatis.Discase"/>
     </typeAliases>
     <environments default="development">
         <environment id="development">
@@ -22,6 +23,7 @@
     <mappers>
         <mapper resource="mybatis/userDao-mapping.xml"/>
         <mapper resource="mybatis/RuleDao-mapping.xml"/>
+        <mapper resource="mybatis/DiscaseDao-mapping.xml"/>
 
     </mappers>
 </configuration>

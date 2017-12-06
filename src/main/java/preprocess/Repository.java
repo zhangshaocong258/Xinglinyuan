@@ -22,7 +22,7 @@ public class Repository {
     private static final String maishePath = "src\\main\\resources\\脉舌词典带标签.txt";
     private static final String caseDataPath = "src\\main\\resources\\合并";
     private static final String featureFolder = "src\\main\\resources\\特征";
-    private static final String featureFile = "src\\main\\resources\\特征\\outNo2.csv";
+    private static final String featureFile = "src\\main\\resources\\特征\\outno1080.csv";
     private static BufferedWriter bw;
     private static HashMap<String, String> dicHashmap = new HashMap<String, String>();
     private static Forest forest;
@@ -54,7 +54,7 @@ public class Repository {
 
     private static HashSet<String> pZhuzheng1Set = new HashSet<String>();
     private static HashSet<String> pZhuzheng2Set = new HashSet<String>();
-    private static HashSet<String> pCizhengSet= new HashSet<String>();
+    private static HashSet<String> pCizhengSet = new HashSet<String>();
     private static HashSet<String> pZhushezhiSet = new HashSet<String>();
     private static HashSet<String> pZhushetaiSet = new HashSet<String>();
     private static HashSet<String> pZhumaiSet = new HashSet<String>();
@@ -77,7 +77,6 @@ public class Repository {
 //        bw.close();
 
 
-
     }
 
     /**
@@ -86,7 +85,7 @@ public class Repository {
      * @param dic
      * @throws Exception
      */
-    private static void readDic(String dic) throws Exception {
+    public static void readDic(String dic) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(dic)));
         String line;
         while ((line = br.readLine()) != null) {
@@ -107,7 +106,7 @@ public class Repository {
                 new FileInputStream(new File(maishePath)))));
     }
 
-    private static void genRepository() {
+    public static void genRepository() {
         x = RuleHandler.selectByName("x");
         g = RuleHandler.selectByName("g");
         p = RuleHandler.selectByName("p");
@@ -219,51 +218,57 @@ public class Repository {
      *
      * @param file
      */
-    private static void doGenFeature(File file) throws Exception {
+    public static void doGenFeature(File file) throws Exception {
 //        System.out.println(file.getName());
         //对病例文件进行处理，生成list
-        List<String> zhengzhuangList;
-        List<String> shezhiList;
-        List<String> shetaiList;
-        List<String> maiList;
-        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-        br.readLine();
-        String medicalHis = br.readLine().split(":")[1].trim();
-        String examine = br.readLine().split(":")[1].trim();
-        String sheZhi = "";
-        String sheTai = "";
-        String maiXiang = "";
-        String[] strings = examine.split(",|，|。|、|;|；");
-        for (int i = 0; i < strings.length; i++) {
-            if (strings[i].startsWith("舌质") || strings[i].startsWith("质")) {
-                sheZhi = strings[i];
-            } else if (strings[i].startsWith("舌苔") || strings[i].startsWith("苔")) {
-                sheTai = strings[i];
-            } else if (strings[i].startsWith("脉")) {
-                maiXiang = strings[i];
+        try {
+            List<String> zhengzhuangList;
+            List<String> shezhiList;
+            List<String> shetaiList;
+            List<String> maiList;
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            br.readLine();
+            String medicalHis = br.readLine().split(":")[1].trim();
+            String examine = br.readLine().split(":")[1].trim();
+            String sheZhi = "";
+            String sheTai = "";
+            String maiXiang = "";
+            String[] strings = examine.split(",|，|。|、|;|；");
+            for (int i = 0; i < strings.length; i++) {
+                if (strings[i].startsWith("舌质") || strings[i].startsWith("质")) {
+                    sheZhi = strings[i];
+                } else if (strings[i].startsWith("舌苔") || strings[i].startsWith("苔")) {
+                    sheTai = strings[i];
+                } else if (strings[i].startsWith("脉")) {
+                    maiXiang = strings[i];
+                }
             }
+            String segExamine = new StringBuilder().append(MyUtil.getSymptom(HanLP.segment(medicalHis)).toString()).
+                    append(MyUtil.getSymptom(HanLP.segment(examine)).toString()).toString();
+            String segSheZhi = MyUtil.getSegResult(forest, sheZhi);
+            String segSheTai = MyUtil.getSegResult(forest, sheTai);
+            String segMaiXiang = MyUtil.getSegResult(forest, maiXiang);
+            zhengzhuangList = Arrays.asList(segExamine.split(","));
+            shezhiList = Arrays.asList(segSheZhi.split(","));
+            shetaiList = Arrays.asList(segSheTai.split(","));
+            maiList = Arrays.asList(segMaiXiang.split(","));
+//            System.out.println("seg1 " + segExamine);
+//            System.out.println("seg2 " + segSheZhi);
+//            System.out.println("seg3 " + segSheTai);
+//            System.out.println("seg4 " + segMaiXiang);
+            List<String> list = matchRule(zhengzhuangList, shezhiList, shetaiList, maiList);
+//            List<String> list = matchWithoutRule(zhengzhuangList, shezhiList, shetaiList, maiList);
+
+            for (String str : list) {
+                bw.write(str);
+                bw.write(",");
+            }
+            bw.write(file.getName().substring(0, 1));
+            bw.newLine();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println(file.getAbsolutePath());
+            e.printStackTrace();
         }
-        String segExamine = new StringBuilder().append(MyUtil.getSymptom(HanLP.segment(medicalHis)).toString()).
-                append(MyUtil.getSymptom(HanLP.segment(examine)).toString()).toString();
-        String segSheZhi = MyUtil.getSegResult(forest, sheZhi);
-        String segSheTai = MyUtil.getSegResult(forest, sheTai);
-        String segMaiXiang = MyUtil.getSegResult(forest, maiXiang);
-        zhengzhuangList = Arrays.asList(segExamine.split(","));
-        shezhiList = Arrays.asList(segSheZhi.split(","));
-        shetaiList = Arrays.asList(segSheTai.split(","));
-        maiList = Arrays.asList(segMaiXiang.split(","));
-//        System.out.println("seg1 " + segExamine);
-//        System.out.println("seg2 " + segSheZhi);
-//        System.out.println("seg3 " + segSheTai);
-//        System.out.println("seg4 " + segMaiXiang);
-//        List<String> list = matchRule(zhengzhuangList, shezhiList, shetaiList, maiList);
-        List<String> list = matchWithoutRule(zhengzhuangList, shezhiList, shetaiList, maiList);
-        for (String str : list) {
-            bw.write(str);
-            bw.write(",");
-        }
-        bw.write(file.getName().substring(0, 1));
-        bw.newLine();
     }
 
 
@@ -304,7 +309,6 @@ public class Repository {
 
 
     /**
-     *
      * @param zhengzhuangList
      * @param shezhiList
      * @param shetaiList
@@ -366,8 +370,8 @@ public class Repository {
      * @param shetaiList
      * @param maiList
      */
-    private static List<String> matchRule(List<String> zhengzhuangList, List<String> shezhiList, List<String> shetaiList,
-                                           List<String> maiList) {
+    public static List<String> matchRule(List<String> zhengzhuangList, List<String> shezhiList, List<String> shetaiList,
+                                         List<String> maiList) {
         List<String> list = new ArrayList<String>();
         int xZhuzheng1 = 0;
         int xZhuzheng2 = 0;
@@ -406,7 +410,7 @@ public class Repository {
         for (String zhengzhuang : zhengzhuangList) {
             if (xZhuzheng1Set.contains(dicHashmap.get(zhengzhuang))) {
                 xZhuzheng1++;
-            } 
+            }
             if (xZhuzheng2Set.contains(dicHashmap.get(zhengzhuang))) {
                 xZhuzheng2++;
             }
@@ -464,7 +468,7 @@ public class Repository {
             if (gCishezhiSet.contains(shezhi)) {
                 gCishezhi++;
             }
-            
+
             if (pZhushezhiSet.contains(shezhi)) {
                 pZhushezhi++;
             }
@@ -487,8 +491,8 @@ public class Repository {
             if (gCishetaiSet.contains(shetai)) {
                 gCishetai++;
             }
-            
-            
+
+
             if (pZhushetaiSet.contains(shetai)) {
                 pZhushetai++;
             }
@@ -511,8 +515,8 @@ public class Repository {
             if (gCimaiSet.contains(mai)) {
                 gCimai++;
             }
-            
-            
+
+
             if (pZhumaiSet.contains(mai)) {
                 pZhumai++;
             }
