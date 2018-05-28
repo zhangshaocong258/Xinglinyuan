@@ -70,10 +70,10 @@ public class Repository {
         readForest(maishePath);
         genRepository();
         genRepositoryWithoutRule();
-        createFile(featureFolder, featureFile);
-        genFeature(caseDataPath);
-        bw.close();
-//        doGenFeature(new File("src\\main\\resources\\心气虚证\\xinqixu12.txt"));
+//        createFile(featureFolder, featureFile);
+//        genFeature(caseDataPath);
+//        bw.close();
+        doGenFeature(new File("src\\main\\resources\\所有数据\\心气虚证\\xinqixu1.txt"));
 //        bw.close();
 
 
