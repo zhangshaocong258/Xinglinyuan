@@ -18,7 +18,7 @@ public class RuleHandler {
 //        selectByName("x");
 //        selectAll();
 //        insert();
-//        insertAll();
+        insertAll();
 //        update();
 //        remove();
 

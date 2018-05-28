@@ -54,6 +54,12 @@ import java.util.*;
  * 准确率 0.7748815165876777
  * time 282815
  *
+ * final2
+ * 准确率 0.8436018957345972
+ * time 76074
+ * 准确率 0.7748815165876777
+ * time 217701
+ *
  */
 public class WordSyn {
 
@@ -69,11 +75,14 @@ public class WordSyn {
         readDic(path1, path2);
 //        System.out.println(sim("水果\\l", "火炉\\l"));
 //        System.out.println(sim("失眠", "出汗"));
-//        explainSim("纳谷不香：食欲不好，饮食无味，吃饭减少", "耳鸣：无相应的外界声源或电刺激，而主观上在耳内或颅内有声音感觉");
-//        explainSim("纳谷不香：食欲不好，饮食无味，吃饭减少", "纳减：食欲减退，吃饭减少");
+//        explainSim("失眠：入睡困难，睡眠质量下降和睡眠时间减少", "失眠多梦：睡觉不好，容易做梦");
+//        explainSim("失眠：入睡困难，睡眠质量下降和睡眠时间减少", "口燥咽干：口和喉都干了，非常口渴");
+
+        explainSim("纳呆：消化不良，食欲不振", "失眠多梦：睡觉不好，容易做梦");
+        explainSim("纳呆：消化不良，食欲不振", "纳减：食欲减退，吃饭减少");
 
         long a = System.currentTimeMillis();
-        System.out.println("准确率 " + calAcc());
+//        System.out.println("准确率 " + calAcc());
         long b = System.currentTimeMillis();
         System.out.println("time " + (b - a));
 ////        for (String str : hashSet) {
